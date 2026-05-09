@@ -317,13 +317,15 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 200;
-      background: rgba(0,0,0,0.72);
-      backdrop-filter: blur(12px);
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(14px);
       padding: 12px 18px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,0.10);
-      box-shadow: 0 0 24px rgba(255,0,180,0.15), 0 0 30px rgba(0,140,255,0.12);
+      box-shadow: 0 0 24px rgba(255,0,180,0.25), 0 0 30px rgba(0,140,255,0.18);
       margin-top: 0;
+      width: max-content;
+      max-width: 94vw;
     }
 
     nav a,
@@ -416,16 +418,41 @@
       opacity: 0;
       transform: scale(1.04);
       transition: 0.8s ease;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      background:
+        radial-gradient(circle at 15% 50%, rgba(255,0,180,0.20), transparent 25%),
+        radial-gradient(circle at 80% 20%, rgba(0,80,255,0.18), transparent 28%),
+        rgba(0,0,0,0.62);
       padding: 24px;
-      text-align: center;
+      text-align: left;
     }
 
     .slide.active {
       opacity: 1;
       transform: scale(1);
+    }
+
+    .slide-content {
+      width: min(940px, 94%);
+      display: grid;
+      grid-template-columns: minmax(170px, 280px) 1fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .slide-thumb {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 24px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow:
+        0 0 24px rgba(255,0,180,0.30),
+        0 0 34px rgba(0,140,255,0.18);
+    }
+
+    .slide-text {
+      padding: 18px 6px;
     }
 
     .slide h3 {
@@ -867,6 +894,29 @@
     }
 
     @media (max-width: 850px) {
+      nav.fixed {
+        top: 8px;
+        width: 94vw;
+        border-radius: 22px;
+        justify-content: center;
+      }
+
+      nav.fixed a {
+        padding: 9px 11px;
+        font-size: 0.82rem;
+      }
+
+      .slide-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 16px;
+      }
+
+      .slide-thumb {
+        width: min(230px, 72vw);
+        margin: 0 auto;
+      }
+
       .info-grid,
       .simulator-content,
       .form-grid,
@@ -1054,22 +1104,31 @@
     <div class="container">
       <h2 class="section-title">Trabalhos & Flashs</h2>
       <div class="carousel">
-        <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.78)), url('https://images.unsplash.com/photo-1542727365-19732a80dcfd?q=80&w=1400&auto=format&fit=crop');">
-          <div>
-            <h3>Tattoos Autorais</h3>
-            <p>Projetos personalizados, traços exclusivos e identidade artística.</p>
+        <div class="slide active">
+          <div class="slide-content">
+            <div class="slide-thumb" style="background-image: url('https://images.unsplash.com/photo-1590246814883-57c511d8f7bb?q=80&w=900&auto=format&fit=crop');"></div>
+            <div class="slide-text">
+              <h3>Tattoo Autoral</h3>
+              <p>Projetos criados para representar uma ideia, uma fase ou uma identidade única.</p>
+            </div>
           </div>
         </div>
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.78)), url('https://images.unsplash.com/photo-1519014816548-bf5fe059798b?q=80&w=1400&auto=format&fit=crop');">
-          <div>
-            <h3>Flash Tattoos</h3>
-            <p>Artes rápidas, referências modernas e ideias exclusivas.</p>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-thumb" style="background-image: url('https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=900&auto=format&fit=crop');"></div>
+            <div class="slide-text">
+              <h3>Flash Tattoo</h3>
+              <p>Artes prontas, rápidas e estilosas para quem quer marcar algo com personalidade.</p>
+            </div>
           </div>
         </div>
-        <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.78)), url('https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?q=80&w=1400&auto=format&fit=crop');">
-          <div>
-            <h3>Body Piercing</h3>
-            <p>Perfurações profissionais, joias e procedimentos seguros.</p>
+        <div class="slide">
+          <div class="slide-content">
+            <div class="slide-thumb" style="background-image: url('https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?q=80&w=900&auto=format&fit=crop');"></div>
+            <div class="slide-text">
+              <h3>Body Piercing</h3>
+              <p>Perfuração feita com cuidado, orientação e escolha adequada da joia.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1281,8 +1340,15 @@
     const introScreen = document.getElementById('introScreen');
 
     window.addEventListener('load', () => {
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+
+      window.scrollTo(0, 0);
+
       setTimeout(() => {
         introScreen.classList.add('hide');
+        window.scrollTo(0, 0);
       }, 6200);
     });
 
@@ -1408,16 +1474,28 @@
 
     const tattooTexts = [
       'Antes da tattoo, hidrate-se bem, alimente-se e evite bebida alcoólica.',
+      'No dia da sessão, venha alimentado e descansado para evitar mal-estar.',
+      'Use roupas confortáveis e que facilitem o acesso ao local da tattoo.',
+      'Evite tomar sol na região antes da tattoo, pois a pele irritada dificulta o procedimento.',
       'Após tatuar, siga os cuidados indicados pelo profissional para uma boa cicatrização.',
       'Evite sol direto, piscina e mar durante o período de cicatrização.',
-      'A escolha do tamanho e do local influencia muito no resultado final da arte.'
+      'Não arranque casquinhas: deixe a pele cicatrizar naturalmente.',
+      'A escolha do tamanho e do local influencia muito no resultado final da arte.',
+      'Tattoos com muitos detalhes precisam de tamanho adequado para envelhecerem melhor.',
+      'Retoques devem ser avaliados somente depois da cicatrização completa.'
     ];
 
     const piercingTexts = [
       'Higienize o piercing conforme orientação profissional e evite mexer com as mãos sujas.',
       'Cada região do corpo tem um tempo diferente de cicatrização.',
       'Não troque a joia antes do período recomendado pelo profissional.',
-      'Evite atrito, pancadas e produtos inadequados na região perfurada.'
+      'Evite atrito, pancadas e produtos inadequados na região perfurada.',
+      'Não durma pressionando o piercing nos primeiros dias.',
+      'Evite piscina, mar e banheira durante a fase inicial de cicatrização.',
+      'Vermelhidão leve pode acontecer no começo, mas dor intensa precisa ser avaliada.',
+      'A escolha da joia correta ajuda muito na cicatrização.',
+      'Não use álcool, perfume ou pomadas sem orientação profissional.',
+      'Na dúvida, chame o estúdio antes de tentar resolver sozinho.'
     ];
 
     const tattooInfo = document.getElementById('tattooInfo');
