@@ -78,15 +78,41 @@
         0 0 12px rgba(255,255,255,0.7),
         0 0 22px rgba(255,0,180,0.4),
         0 0 30px rgba(0,80,255,0.3);
-      clip-path: inset(0 100% 0 0);
-      animation: writeText 2.7s steps(9) 0.45s forwards, introFlicker 2s 3.2s infinite;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.02em;
+      position: relative;
+    }
+
+    .intro-written-text span {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      filter: blur(3px);
+      animation: letterInk 0.42s ease forwards;
+    }
+
+    .intro-written-text span:nth-child(1) { animation-delay: 0.75s; }
+    .intro-written-text span:nth-child(2) { animation-delay: 1.15s; }
+    .intro-written-text span:nth-child(3) { animation-delay: 1.55s; }
+    .intro-written-text span:nth-child(4) { animation-delay: 1.95s; }
+    .intro-written-text span:nth-child(5) { animation-delay: 2.35s; }
+    .intro-written-text span:nth-child(6) { animation-delay: 2.55s; }
+    .intro-written-text span:nth-child(7) { animation-delay: 2.95s; }
+    .intro-written-text span:nth-child(8) { animation-delay: 3.35s; }
+    .intro-written-text span:nth-child(9) { animation-delay: 3.75s; }
+
+    .intro-written-text .space {
+      width: 0.35em;
+      animation: none;
+      opacity: 1;
     }
 
     .intro-written-text::before,
     .intro-written-text::after {
       content: 'SORRY MOM';
       position: absolute;
-      inset: 20px 0 10px;
+      inset: 0;
       opacity: 0;
       pointer-events: none;
     }
@@ -94,7 +120,13 @@
     .intro-written-text::before {
       color: rgba(255,0,180,0.55);
       transform: translate(-2px, 0);
-      animation: glitchShadow 0.32s 3.15s 3;
+      animation: glitchShadow 0.32s 4.55s 3;
+    }
+
+    .intro-written-text::after {
+      color: rgba(0,140,255,0.55);
+      transform: translate(2px, 0);
+      animation: glitchShadow 0.32s 4.55s 3;
     }
 
     .intro-written-text::after {
@@ -109,7 +141,7 @@
       margin: 0 auto;
       background: linear-gradient(90deg, transparent, #ff00a8, #00a2ff, transparent);
       box-shadow: 0 0 14px rgba(255,0,180,0.8), 0 0 20px rgba(0,140,255,0.6);
-      animation: inkLine 2.7s ease 0.45s forwards;
+      animation: inkLine 3.6s ease 0.75s forwards;
     }
 
     .tattoo-machine {
@@ -122,7 +154,7 @@
       filter:
         drop-shadow(0 0 10px rgba(255,0,180,0.45))
         drop-shadow(0 0 14px rgba(0,140,255,0.35));
-      animation: machineWrite 2.7s ease-in-out 0.45s forwards, machineVibration 0.08s infinite;
+      animation: machineWriteLetters 4.2s ease-in-out 0.55s forwards, machineVibration 0.08s infinite;
     }
 
     .intro-subtitle {
@@ -131,7 +163,7 @@
       letter-spacing: 6px;
       color: rgba(255,255,255,0.75);
       opacity: 0;
-      animation: subtitleReveal 0.8s ease 3.25s forwards;
+      animation: subtitleReveal 0.8s ease 4.85s forwards;
     }
 
     body::before {
@@ -685,36 +717,56 @@
       }
     }
 
-    @keyframes writeText {
-      from { clip-path: inset(0 100% 0 0); }
-      to { clip-path: inset(0 0 0 0); }
+    @keyframes letterInk {
+      0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.96);
+        filter: blur(3px);
+        text-shadow: none;
+      }
+      45% {
+        opacity: 0.65;
+        filter: blur(1px);
+        text-shadow: 0 0 18px rgba(255,0,180,0.7), 0 0 20px rgba(0,140,255,0.45);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
     }
 
     @keyframes inkLine {
-      from { width: 0; opacity: 0.4; }
-      to { width: 92%; opacity: 1; }
+      0% { width: 0; opacity: 0.18; }
+      18% { width: 11%; opacity: 0.85; }
+      30% { width: 24%; opacity: 0.7; }
+      42% { width: 38%; opacity: 0.95; }
+      54% { width: 51%; opacity: 0.75; }
+      66% { width: 63%; opacity: 0.9; }
+      78% { width: 78%; opacity: 0.7; }
+      100% { width: 92%; opacity: 1; }
     }
 
-    @keyframes machineWrite {
+    @keyframes machineWriteLetters {
       0% {
-        left: 1%;
-        top: 72px;
-        transform: translateX(-80px) rotate(-18deg);
+        left: 3%;
+        top: 74px;
+        transform: translateX(-90px) rotate(-19deg);
         opacity: 0;
       }
-      8% {
-        opacity: 1;
-      }
-      88% {
-        left: 88%;
-        top: 72px;
-        transform: translateX(-40px) rotate(-16deg);
-        opacity: 1;
-      }
+      7% { opacity: 1; }
+      14% { left: 15%; top: 74px; transform: translateX(-50px) rotate(-18deg); }
+      25% { left: 25%; top: 70px; transform: translateX(-50px) rotate(-16deg); }
+      36% { left: 36%; top: 75px; transform: translateX(-50px) rotate(-18deg); }
+      47% { left: 47%; top: 71px; transform: translateX(-50px) rotate(-15deg); }
+      58% { left: 57%; top: 75px; transform: translateX(-50px) rotate(-17deg); }
+      68% { left: 66%; top: 72px; transform: translateX(-50px) rotate(-16deg); }
+      79% { left: 76%; top: 75px; transform: translateX(-50px) rotate(-18deg); }
+      90% { left: 86%; top: 72px; transform: translateX(-50px) rotate(-16deg); opacity: 1; }
       100% {
         left: 92%;
-        top: 50px;
-        transform: translateX(-30px) rotate(-8deg) scale(0.92);
+        top: 48px;
+        transform: translateX(-35px) rotate(-8deg) scale(0.92);
         opacity: 0;
       }
     }
@@ -817,7 +869,9 @@
       <img class="tattoo-machine" src="imagens/tattoo-machine.png" alt="Máquina de tatuagem escrevendo o logo Sorry Mom" />
 
       <div class="writing-area">
-        <div class="intro-written-text">SORRY MOM</div>
+        <div class="intro-written-text" aria-label="SORRY MOM">
+          <span>S</span><span>O</span><span>R</span><span>R</span><span>Y</span><span class="space"></span><span>M</span><span>O</span><span>M</span>
+        </div>
         <div class="ink-line"></div>
       </div>
 
@@ -1038,7 +1092,7 @@
     window.addEventListener('load', () => {
       setTimeout(() => {
         introScreen.classList.add('hide');
-      }, 3200);
+      }, 6200);
     });
 
     const ambientAudio = document.getElementById('ambientAudio');
