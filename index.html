@@ -51,8 +51,8 @@
 
     .intro-stage {
       position: relative;
-      width: min(760px, 92vw);
-      min-height: 280px;
+      width: min(980px, 96vw);
+      min-height: clamp(260px, 34vw, 420px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -70,9 +70,9 @@
 
     .intro-written-text {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(3rem, 10vw, 7rem);
+      font-size: clamp(2.4rem, 9vw, 7.4rem);
       color: #fff;
-      letter-spacing: 3px;
+      letter-spacing: clamp(1px, 0.35vw, 4px);
       white-space: nowrap;
       text-shadow:
         0 0 12px rgba(255,255,255,0.7),
@@ -82,7 +82,7 @@
       align-items: center;
       justify-content: center;
       gap: 0.02em;
-      padding-right: 0.15em;
+      padding-inline: 0.18em;
       position: relative;
     }
 
@@ -147,9 +147,9 @@
 
     .tattoo-machine {
       position: absolute;
-      width: clamp(92px, 16vw, 150px);
+      width: clamp(72px, 14vw, 160px);
       left: 0;
-      top: 54px;
+      top: clamp(70px, 10vw, 118px);
       z-index: 3;
       transform: translateX(-80px) rotate(-18deg);
       filter:
@@ -207,7 +207,7 @@
 
     .hero-card {
       width: 100%;
-      padding: 42px 22px;
+      padding: clamp(28px, 4vw, 54px) clamp(14px, 3vw, 30px);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 28px;
       background: rgba(0,0,0,0.46);
@@ -217,7 +217,7 @@
     }
 
     .logo-orb {
-      width: min(520px, 92vw);
+      width: min(520px, 76vh, 92vw);
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       margin: 0 auto 24px;
@@ -853,7 +853,7 @@
       }
 
       .logo-orb {
-        width: min(360px, 88vw);
+        width: min(360px, 86vw);
       }
 
       .since {
@@ -861,6 +861,106 @@
         top: 0;
         left: 0;
         margin-top: 4px;
+      }
+
+      .intro-stage {
+        width: 100vw;
+        min-height: 260px;
+        padding: 0 10px;
+      }
+
+      .writing-area {
+        width: 100vw;
+        padding-inline: 8px;
+      }
+
+      .intro-written-text {
+        font-size: clamp(2.3rem, 14vw, 4.2rem);
+        letter-spacing: 1px;
+        transform: scale(0.92);
+      }
+
+      .tattoo-machine {
+        width: clamp(62px, 22vw, 96px);
+        top: 94px;
+      }
+
+      .intro-subtitle {
+        font-size: 0.72rem;
+        letter-spacing: 3px;
+        margin-top: 6px;
+      }
+
+      @keyframes machineWriteLetters {
+        0% { left: 0%; top: 104px; transform: translateX(-70px) rotate(-19deg); opacity: 0; }
+        7% { opacity: 1; }
+        14% { left: 13%; top: 104px; transform: translateX(-40px) rotate(-18deg); }
+        25% { left: 24%; top: 101px; transform: translateX(-40px) rotate(-16deg); }
+        36% { left: 35%; top: 105px; transform: translateX(-40px) rotate(-18deg); }
+        47% { left: 46%; top: 101px; transform: translateX(-40px) rotate(-15deg); }
+        58% { left: 56%; top: 105px; transform: translateX(-40px) rotate(-17deg); }
+        68% { left: 66%; top: 102px; transform: translateX(-40px) rotate(-16deg); }
+        79% { left: 76%; top: 105px; transform: translateX(-40px) rotate(-18deg); }
+        90% { left: 86%; top: 102px; transform: translateX(-40px) rotate(-16deg); opacity: 1; }
+        100% { left: 93%; top: 84px; transform: translateX(-32px) rotate(-8deg) scale(0.9); opacity: 0; }
+      }
+    }
+
+    @media (min-width: 1400px) {
+      .container {
+        width: min(1380px, 88%);
+      }
+
+      .hero-card {
+        padding: 64px 38px;
+      }
+
+      .logo-orb {
+        width: min(620px, 68vh);
+      }
+
+      .carousel {
+        min-height: 460px;
+      }
+
+      .intro-stage {
+        width: min(1180px, 86vw);
+        min-height: 480px;
+      }
+
+      .intro-written-text {
+        font-size: clamp(6rem, 7vw, 9.5rem);
+      }
+
+      .tattoo-machine {
+        width: clamp(150px, 10vw, 220px);
+        top: clamp(110px, 8vw, 150px);
+      }
+
+      .intro-subtitle {
+        font-size: 1.1rem;
+        letter-spacing: 8px;
+      }
+    }
+
+    @media (min-width: 1900px) {
+      body {
+        font-size: 1.08rem;
+      }
+
+      .section-title {
+        font-size: 4.2rem;
+      }
+
+      .info-card,
+      .form-card,
+      .map-card,
+      .simulator-card {
+        padding: 34px;
+      }
+
+      .carousel {
+        min-height: 540px;
       }
     }
   </style>
