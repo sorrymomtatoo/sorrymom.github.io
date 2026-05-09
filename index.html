@@ -1515,16 +1515,59 @@
       }, 350);
     }, 7000);
 
+    const API_URL = 'https://sorrymom-backend.onrender.com/orcamentos';
+
+    async function salvarOrcamentoBackend(dados) {
+      try {
+        const resposta = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        });
+
+        if (!resposta.ok) {
+          throw new Error('Erro ao salvar orçamento');
+        }
+
+        return await resposta.json();
+      } catch (erro) {
+        console.error('Falha ao enviar para o backend:', erro);
+        return null;
+      }
+    }
+
     const budgetForm = document.getElementById('budgetForm');
     const piercingForm = document.getElementById('piercingForm');
 
-    budgetForm.addEventListener('submit', (event) => {
+    budgetForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const numeroDouglas = '5551999999999'; // Trocar pelo WhatsApp real do Douglas
       const referencia = document.getElementById('referencia').files.length > 0 ? 'Sim, vou enviar a imagem aqui no WhatsApp.' : 'Não.';
 
+      const dadosOrcamento = {
+        tipo: 'tattoo',
+        nome: document.getElementById('nome').value,
+        idade: document.getElementById('idade').value,
+        telefone: document.getElementById('telefone').value,
+        detalhes: {
+          menorDeIdade: document.getElementById('menor').value,
+          localTattoo: document.getElementById('localTattoo').value,
+          tamanho: document.getElementById('tamanho').value,
+          tipoTattoo: document.getElementById('tipoTattoo').value,
+          descricao: document.getElementById('descricao').value,
+          alteracoes: document.getElementById('alteracoes').value,
+          imagemReferencia: referencia
+        }
+      };
+
+      const retornoBackend = await salvarOrcamentoBackend(dadosOrcamento);
+      const protocolo = retornoBackend?.orcamento?.id ? `#${retornoBackend.orcamento.id}` : 'não gerado';
+
       const mensagem = `Olá, vim pelo site Sorry Mom e gostaria de fazer um orçamento de tatuagem.%0A%0A` +
+        `Protocolo no site: ${protocolo}%0A%0A` +
         `Nome: ${document.getElementById('nome').value}%0A` +
         `Idade: ${document.getElementById('idade').value}%0A` +
         `Menor de idade: ${document.getElementById('menor').value}%0A` +
@@ -1538,10 +1581,26 @@
 
       window.open(`https://wa.me/${numeroDouglas}?text=${mensagem}`, '_blank');    });
 
-    piercingForm.addEventListener('submit', (event) => {
+    piercingForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
+      const dadosOrcamento = {
+        tipo: 'piercing',
+        nome: document.getElementById('piercingNome').value,
+        idade: document.getElementById('piercingIdade').value,
+        telefone: document.getElementById('piercingTelefone').value,
+        detalhes: {
+          localPiercing: document.getElementById('piercingLocal').value,
+          tipoJoia: document.getElementById('piercingTipo').value,
+          observacoes: document.getElementById('piercingObs').value
+        }
+      };
+
+      const retornoBackend = await salvarOrcamentoBackend(dadosOrcamento);
+      const protocolo = retornoBackend?.orcamento?.id ? `#${retornoBackend.orcamento.id}` : 'não gerado';
+
       const mensagem = `Olá, vim pelo site Sorry Mom e gostaria de fazer um orçamento de piercing.%0A%0A` +
+        `Protocolo no site: ${protocolo}%0A%0A` +
         `Nome: ${document.getElementById('piercingNome').value}%0A` +
         `Idade: ${document.getElementById('piercingIdade').value}%0A` +
         `Telefone: ${document.getElementById('piercingTelefone').value}%0A%0A` +
