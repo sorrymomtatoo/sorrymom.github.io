@@ -599,6 +599,30 @@
       background: linear-gradient(90deg, rgba(255,0,180,0.18), rgba(0,80,255,0.16));
     }
 
+    .admin-list {
+      display: grid;
+      gap: 16px;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .admin-budget {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(0,0,0,0.34);
+      box-shadow: 0 0 18px rgba(255,0,180,0.10), 0 0 24px rgba(0,140,255,0.08);
+    }
+
+    .admin-budget strong {
+      color: #fff;
+    }
+
+    .admin-budget small {
+      display: block;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 10px;
+    }
+
     .contact-grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr;
@@ -1083,6 +1107,7 @@
           <a href="#simulador">Simulador</a>
           <a href="#orcamento">Orçamento</a>
           <a href="#localizacao">Localização</a>
+          <a href="#admin">Admin</a>
         </nav>
       </div>
     </div>
@@ -1305,6 +1330,24 @@
             <button class="btn btn-primary" type="submit">Enviar orçamento piercing</button>
           </div>
         </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="admin">
+    <div class="container">
+      <h2 class="section-title">Painel Admin</h2>
+      <div class="form-card">
+        <h3>Orçamentos recebidos</h3>
+        <p style="color: rgba(255,255,255,0.68); margin-bottom: 18px;">
+          Área inicial para visualizar os orçamentos salvos no backend Python.
+        </p>
+        <div class="submit-row" style="justify-content: flex-start; margin-bottom: 18px;">
+          <button class="btn btn-primary" id="loadBudgets" type="button">Carregar orçamentos</button>
+        </div>
+        <div id="adminList" class="admin-list">
+          Nenhum orçamento carregado ainda.
+        </div>
       </div>
     </div>
   </section>
@@ -1540,6 +1583,50 @@
 
     const budgetForm = document.getElementById('budgetForm');
     const piercingForm = document.getElementById('piercingForm');
+    const loadBudgets = document.getElementById('loadBudgets');
+    const adminList = document.getElementById('adminList');
+
+    async function carregarOrcamentosAdmin() {
+      adminList.textContent = 'Carregando orçamentos...';
+
+      try {
+        const resposta = await fetch(API_URL);
+
+        if (!resposta.ok) {
+          throw new Error('Erro ao buscar orçamentos');
+        }
+
+        const orcamentos = await resposta.json();
+
+        if (!orcamentos.length) {
+          adminList.textContent = 'Nenhum orçamento recebido ainda.';
+          return;
+        }
+
+        adminList.innerHTML = orcamentos.map((item) => {
+          const detalhes = Object.entries(item.detalhes || {})
+            .map(([chave, valor]) => `<p><strong>${chave}:</strong> ${valor || '-'}</p>`)
+            .join('');
+
+          return `
+            <div class="admin-budget">
+              <small>${item.data || 'Data não informada'}</small>
+              <h3>Protocolo #${item.id} — ${item.tipo}</h3>
+              <p><strong>Nome:</strong> ${item.nome}</p>
+              <p><strong>Idade:</strong> ${item.idade}</p>
+              <p><strong>Telefone:</strong> ${item.telefone || '-'}</p>
+              <br />
+              ${detalhes}
+            </div>
+          `;
+        }).join('');
+      } catch (erro) {
+        console.error(erro);
+        adminList.textContent = 'Não foi possível carregar os orçamentos agora.';
+      }
+    }
+
+    loadBudgets.addEventListener('click', carregarOrcamentosAdmin);
 
     budgetForm.addEventListener('submit', async (event) => {
       event.preventDefault();
