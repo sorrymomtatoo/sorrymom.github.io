@@ -1338,15 +1338,33 @@
     <div class="container">
       <h2 class="section-title">Painel Admin</h2>
       <div class="form-card">
-        <h3>Orçamentos recebidos</h3>
+        <h3>Acesso restrito</h3>
         <p style="color: rgba(255,255,255,0.68); margin-bottom: 18px;">
-          Área inicial para visualizar os orçamentos salvos no backend Python.
+          Digite a senha administrativa para visualizar os orçamentos recebidos.
         </p>
-        <div class="submit-row" style="justify-content: flex-start; margin-bottom: 18px;">
-          <button class="btn btn-primary" id="loadBudgets" type="button">Carregar orçamentos</button>
+
+        <div id="adminLogin" class="form-grid">
+          <label class="full">Senha do admin
+            <input id="adminPassword" type="password" placeholder="Digite a senha" />
+          </label>
+          <div class="submit-row full" style="justify-content: flex-start;">
+            <button class="btn btn-primary" id="adminAccess" type="button">Entrar no painel</button>
+          </div>
+          <p id="adminError" class="full" style="display:none; color: #ff8acb;">Senha incorreta.</p>
         </div>
-        <div id="adminList" class="admin-list">
-          Nenhum orçamento carregado ainda.
+
+        <div id="adminPanel" style="display:none;">
+          <h3>Orçamentos recebidos</h3>
+          <p style="color: rgba(255,255,255,0.68); margin-bottom: 18px;">
+            Área inicial para visualizar os orçamentos salvos no backend Python.
+          </p>
+          <div class="submit-row" style="justify-content: flex-start; margin-bottom: 18px; gap: 12px; flex-wrap: wrap;">
+            <button class="btn btn-primary" id="loadBudgets" type="button">Carregar orçamentos</button>
+            <button class="btn" id="adminLogout" type="button">Sair do painel</button>
+          </div>
+          <div id="adminList" class="admin-list">
+            Nenhum orçamento carregado ainda.
+          </div>
         </div>
       </div>
     </div>
@@ -1585,6 +1603,48 @@
     const piercingForm = document.getElementById('piercingForm');
     const loadBudgets = document.getElementById('loadBudgets');
     const adminList = document.getElementById('adminList');
+    const adminLogin = document.getElementById('adminLogin');
+    const adminPanel = document.getElementById('adminPanel');
+    const adminPassword = document.getElementById('adminPassword');
+    const adminAccess = document.getElementById('adminAccess');
+    const adminLogout = document.getElementById('adminLogout');
+    const adminError = document.getElementById('adminError');
+    const ADMIN_PASSWORD = 'sorrymom2026';
+
+    function abrirPainelAdmin() {
+      adminLogin.style.display = 'none';
+      adminPanel.style.display = 'block';
+      adminError.style.display = 'none';
+      sessionStorage.setItem('sorryMomAdmin', 'true');
+    }
+
+    function fecharPainelAdmin() {
+      adminLogin.style.display = 'grid';
+      adminPanel.style.display = 'none';
+      adminPassword.value = '';
+      adminList.textContent = 'Nenhum orçamento carregado ainda.';
+      sessionStorage.removeItem('sorryMomAdmin');
+    }
+
+    if (sessionStorage.getItem('sorryMomAdmin') === 'true') {
+      abrirPainelAdmin();
+    }
+
+    adminAccess.addEventListener('click', () => {
+      if (adminPassword.value === ADMIN_PASSWORD) {
+        abrirPainelAdmin();
+      } else {
+        adminError.style.display = 'block';
+      }
+    });
+
+    adminPassword.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        adminAccess.click();
+      }
+    });
+
+    adminLogout.addEventListener('click', fecharPainelAdmin);
 
     async function carregarOrcamentosAdmin() {
       adminList.textContent = 'Carregando orçamentos...';
