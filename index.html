@@ -49,47 +49,89 @@
       pointer-events: none;
     }
 
-    .intro-logo {
-      text-align: center;
-      animation: introFade 2s ease forwards;
+    .intro-stage {
+      position: relative;
+      width: min(760px, 92vw);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: introFade 1.4s ease forwards;
     }
 
-    .intro-glitch {
+    .writing-area {
+      position: relative;
+      width: min(720px, 92vw);
+      text-align: center;
+      overflow: hidden;
+      padding: 20px 0 10px;
+    }
+
+    .intro-written-text {
       font-family: Georgia, 'Times New Roman', serif;
       font-size: clamp(3rem, 10vw, 7rem);
       color: #fff;
       letter-spacing: 3px;
-      position: relative;
+      white-space: nowrap;
       text-shadow:
         0 0 12px rgba(255,255,255,0.7),
         0 0 22px rgba(255,0,180,0.4),
         0 0 30px rgba(0,80,255,0.3);
-      animation: introFlicker 2s infinite;
+      clip-path: inset(0 100% 0 0);
+      animation: writeText 2.7s steps(9) 0.45s forwards, introFlicker 2s 3.2s infinite;
     }
 
-    .intro-glitch::before,
-    .intro-glitch::after {
+    .intro-written-text::before,
+    .intro-written-text::after {
       content: 'SORRY MOM';
       position: absolute;
-      inset: 0;
-      opacity: 0.6;
+      inset: 20px 0 10px;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .intro-glitch::before {
-      color: rgba(255,0,180,0.6);
+    .intro-written-text::before {
+      color: rgba(255,0,180,0.55);
       transform: translate(-2px, 0);
+      animation: glitchShadow 0.32s 3.15s 3;
     }
 
-    .intro-glitch::after {
-      color: rgba(0,140,255,0.6);
+    .intro-written-text::after {
+      color: rgba(0,140,255,0.55);
       transform: translate(2px, 0);
+      animation: glitchShadow 0.32s 3.15s 3;
     }
 
-    .intro-logo span {
+    .ink-line {
+      width: 0;
+      height: 2px;
+      margin: 0 auto;
+      background: linear-gradient(90deg, transparent, #ff00a8, #00a2ff, transparent);
+      box-shadow: 0 0 14px rgba(255,0,180,0.8), 0 0 20px rgba(0,140,255,0.6);
+      animation: inkLine 2.7s ease 0.45s forwards;
+    }
+
+    .tattoo-machine {
+      position: absolute;
+      width: clamp(92px, 16vw, 150px);
+      left: 0;
+      top: 54px;
+      z-index: 3;
+      transform: translateX(-80px) rotate(-18deg);
+      filter:
+        drop-shadow(0 0 10px rgba(255,0,180,0.45))
+        drop-shadow(0 0 14px rgba(0,140,255,0.35));
+      animation: machineWrite 2.7s ease-in-out 0.45s forwards, machineVibration 0.08s infinite;
+    }
+
+    .intro-subtitle {
       display: block;
-      margin-top: 14px;
+      margin-top: 16px;
       letter-spacing: 6px;
       color: rgba(255,255,255,0.75);
+      opacity: 0;
+      animation: subtitleReveal 0.8s ease 3.25s forwards;
     }
 
     body::before {
@@ -643,6 +685,56 @@
       }
     }
 
+    @keyframes writeText {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    @keyframes inkLine {
+      from { width: 0; opacity: 0.4; }
+      to { width: 92%; opacity: 1; }
+    }
+
+    @keyframes machineWrite {
+      0% {
+        left: 1%;
+        top: 72px;
+        transform: translateX(-80px) rotate(-18deg);
+        opacity: 0;
+      }
+      8% {
+        opacity: 1;
+      }
+      88% {
+        left: 88%;
+        top: 72px;
+        transform: translateX(-40px) rotate(-16deg);
+        opacity: 1;
+      }
+      100% {
+        left: 92%;
+        top: 50px;
+        transform: translateX(-30px) rotate(-8deg) scale(0.92);
+        opacity: 0;
+      }
+    }
+
+    @keyframes machineVibration {
+      0% { margin-left: 0; margin-top: 0; }
+      50% { margin-left: 1px; margin-top: -1px; }
+      100% { margin-left: -1px; margin-top: 1px; }
+    }
+
+    @keyframes subtitleReveal {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes glitchShadow {
+      0%, 100% { opacity: 0; }
+      25%, 65% { opacity: 0.7; }
+    }
+
     @keyframes introFade {
       from {
         opacity: 0;
@@ -721,9 +813,15 @@
 </head>
 <body>
   <div id="introScreen">
-    <div class="intro-logo">
-      <div class="intro-glitch">SORRY MOM</div>
-      <span>TATTOO • PIERCING</span>
+    <div class="intro-stage">
+      <img class="tattoo-machine" src="imagens/tattoo-machine.png" alt="Máquina de tatuagem escrevendo o logo Sorry Mom" />
+
+      <div class="writing-area">
+        <div class="intro-written-text">SORRY MOM</div>
+        <div class="ink-line"></div>
+      </div>
+
+      <span class="intro-subtitle">TATTOO • PIERCING</span>
     </div>
   </div>
   <audio id="ambientAudio" loop>
