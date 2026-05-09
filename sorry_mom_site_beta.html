@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorry Mom | Tattoo & Piercing</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      --audio-glow: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 0, 180, 0.16), transparent 28%),
+        radial-gradient(circle at 80% 15%, rgba(0, 80, 255, 0.20), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.06), transparent 25%),
+        #050505;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 100% 6px;
+      pointer-events: none;
+      opacity: 0.35;
+      z-index: 50;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+    }
+
+    .hero-card {
+      width: 100%;
+      padding: 42px 22px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 28px;
+      background: rgba(0,0,0,0.46);
+      box-shadow: 0 0 50px rgba(0,0,0,0.75), inset 0 0 35px rgba(255,255,255,0.03);
+      backdrop-filter: blur(10px);
+      animation: fadeUp 1s ease both;
+    }
+
+    .logo-orb {
+      width: min(520px, 92vw);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+      box-shadow:
+        0 0 35px rgba(255, 0, 180, 0.35),
+        0 0 60px rgba(0, 80, 255, 0.28),
+        inset 0 0 30px rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+
+    .logo-orb::before,
+    .logo-orb::after {
+      content: "";
+      position: absolute;
+      width: 44%;
+      height: 3px;
+      top: 48%;
+      filter: blur(0.3px);
+      animation: pulseNeon 2.6s infinite alternate;
+    }
+
+    .logo-orb::before {
+      left: 5%;
+      background: linear-gradient(90deg, transparent, #ff00a8, #7b00ff);
+      box-shadow: 0 0 16px #ff00a8;
+      transform: rotate(2deg);
+    }
+
+    .logo-orb::after {
+      right: 5%;
+      background: linear-gradient(90deg, #004cff, #00a2ff, transparent);
+      box-shadow: 0 0 16px #008cff;
+      transform: rotate(-2deg);
+    }
+
+    .brand {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px rgba(255,255,255,0.75), 0 0 32px rgba(255,255,255,0.22);
+      position: relative;
+      z-index: 2;
+    }
+
+    .since {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: rgba(255,255,255,0.58);
+      position: relative;
+      top: -18px;
+      left: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      font-size: clamp(0.9rem, 3vw, 1.25rem);
+      letter-spacing: 5px;
+      color: rgba(255,255,255,0.82);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    nav a,
+    .btn {
+      color: #fff;
+      text-decoration: none;
+      border: 1px solid rgba(255, 0, 180, 0.45);
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(255,255,255,0.035);
+      box-shadow:
+        0 0 8px rgba(255, 0, 180, 0.28),
+        0 0 14px rgba(0, 80, 255, 0.18),
+        inset 0 0 16px rgba(255,255,255,0.03);
+      transition: 0.25s ease;
+      cursor: pointer;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+      animation: neonFault 3.8s infinite;
+    }
+
+    nav a::before,
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 180, 0.55), rgba(0, 140, 255, 0.45), transparent);
+      opacity: 0;
+      transform: translateX(-70%);
+      pointer-events: none;
+    }
+
+    nav a.glitch-click,
+    .btn.glitch-click {
+      animation: clickGlitch 0.36s linear, neonFault 3.8s infinite;
+    }
+
+    nav a.glitch-click::before,
+    .btn.glitch-click::before {
+      animation: lightSweep 0.36s linear;
+    }
+
+    nav a:hover,
+    .btn:hover {
+      border-color: rgba(255, 0, 180, 0.8);
+      box-shadow:
+        0 0 calc(18px + var(--audio-glow) * 30px) rgba(255, 0, 180, 0.45),
+        0 0 calc(28px + var(--audio-glow) * 35px) rgba(0, 80, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    body.audio-reacting nav a,
+    body.audio-reacting .btn,
+    body.audio-reacting .logo-orb,
+    body.audio-reacting .carousel {
+      filter: brightness(calc(1 + var(--audio-glow) * 0.45));
+    }
+
+    section {
+      padding: 78px 0;
+    }
+
+    .section-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      margin-bottom: 32px;
+      text-shadow: 0 0 20px rgba(255,255,255,0.18);
+    }
+
+    .carousel {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      min-height: 360px;
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: 0 0 35px rgba(0,0,0,0.65);
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(1.04);
+      transition: 0.8s ease;
+      background:
+        linear-gradient(120deg, rgba(255,0,180,0.22), rgba(0,80,255,0.18)),
+        #111;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .slide h3 {
+      font-size: clamp(1.8rem, 5vw, 4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .slide p {
+      margin-top: 12px;
+      color: rgba(255,255,255,0.78);
+      font-size: 1.05rem;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .info-card,
+    .form-card,
+    .map-card,
+    .simulator-card {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 26px;
+      background: rgba(255,255,255,0.045);
+      box-shadow:
+        0 0 calc(22px + var(--audio-glow) * 30px) rgba(255, 0, 180, calc(0.10 + var(--audio-glow) * 0.20)),
+        0 0 calc(34px + var(--audio-glow) * 34px) rgba(0, 80, 255, calc(0.08 + var(--audio-glow) * 0.18)),
+        0 0 30px rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+      animation: sectionNeon 6s infinite alternate;
+    }
+
+    .info-card::before,
+    .form-card::before,
+    .map-card::before,
+    .simulator-card::before,
+    .carousel::before,
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg,
+          rgba(255, 0, 180, 0.0),
+          rgba(255, 0, 180, 0.18),
+          rgba(0, 140, 255, 0.14),
+          rgba(255, 0, 180, 0.0));
+      opacity: 0.45;
+      animation: borderFlow 7s linear infinite;
+    }
+
+    .info-card h3,
+    .form-card h3,
+    .map-card h3,
+    .simulator-card h3 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    .info-card p {
+      color: rgba(255,255,255,0.78);
+      line-height: 1.7;
+      min-height: 110px;
+      transition: 0.4s ease;
+    }
+
+    .simulator-content {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .body-placeholder {
+      height: 420px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255,255,255,0.22), transparent 10%),
+        linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      border: 1px dashed rgba(255,255,255,0.22);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 14px;
+      padding: 13px 14px;
+      color: #fff;
+      background: rgba(0,0,0,0.42);
+      outline: none;
+      font-size: 1rem;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.76);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .submit-row {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .btn-primary {
+      border-color: rgba(255,0,180,0.8);
+      background: linear-gradient(90deg, rgba(255,0,180,0.18), rgba(0,80,255,0.16));
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+    }
+
+    .fake-map {
+      min-height: 280px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.20);
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,0.55);
+      background: rgba(0,0,0,0.34);
+      text-align: center;
+      padding: 18px;
+    }
+
+    .floating-whatsapp {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 80;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-decoration: none;
+      font-size: 1.7rem;
+      background: rgba(0,0,0,0.75);
+      border: 1px solid rgba(255,255,255,0.20);
+      box-shadow: 0 0 24px rgba(255,0,180,0.38), 0 0 28px rgba(0,80,255,0.22);
+    }
+
+    .audio-toggle {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 80;
+      border-radius: 999px;
+      padding: 12px 18px;
+      background: rgba(0,0,0,0.78);
+      border: 1px solid rgba(255,0,180,0.35);
+      color: #fff;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      box-shadow:
+        0 0 12px rgba(255,0,180,0.18),
+        0 0 18px rgba(0,140,255,0.10);
+      animation: neonFault 4s infinite;
+    }
+
+    footer {
+      text-align: center;
+      padding: 34px 0;
+      color: rgba(255,255,255,0.56);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @keyframes pulseNeon {
+      from { opacity: 0.45; filter: blur(1px); }
+      to { opacity: 1; filter: blur(0px); }
+    }
+
+    @keyframes neonFault {
+      0%, 100% {
+        border-color: rgba(255, 0, 180, 0.42);
+        box-shadow: 0 0 8px rgba(255, 0, 180, 0.28), 0 0 14px rgba(0, 80, 255, 0.18), inset 0 0 16px rgba(255,255,255,0.03);
+      }
+      7% {
+        border-color: rgba(0, 140, 255, 0.7);
+        box-shadow: 0 0 13px rgba(0, 140, 255, 0.42), 0 0 20px rgba(255, 0, 180, 0.22);
+      }
+      8% {
+        border-color: rgba(255,255,255,0.12);
+        box-shadow: none;
+      }
+      9%, 12% {
+        border-color: rgba(255, 0, 180, 0.8);
+        box-shadow: 0 0 18px rgba(255, 0, 180, 0.55), 0 0 30px rgba(0, 80, 255, 0.30);
+      }
+      13% {
+        border-color: rgba(255,255,255,0.16);
+        box-shadow: 0 0 4px rgba(255,255,255,0.08);
+      }
+      14%, 55% {
+        border-color: rgba(255, 0, 180, 0.45);
+        box-shadow: 0 0 8px rgba(255, 0, 180, 0.28), 0 0 14px rgba(0, 80, 255, 0.18), inset 0 0 16px rgba(255,255,255,0.03);
+      }
+      56% {
+        border-color: rgba(0, 140, 255, 0.88);
+        box-shadow: 0 0 18px rgba(0, 140, 255, 0.50), 0 0 26px rgba(255, 0, 180, 0.26);
+      }
+      57% {
+        border-color: rgba(255,255,255,0.10);
+        box-shadow: none;
+      }
+      58% {
+        border-color: rgba(255, 0, 180, 0.8);
+        box-shadow: 0 0 18px rgba(255, 0, 180, 0.52), 0 0 28px rgba(0, 80, 255, 0.30);
+      }
+    }
+
+    @keyframes clickGlitch {
+      0% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); }
+      18% { transform: translate(-2px, 1px) skew(-6deg); filter: hue-rotate(35deg); }
+      34% { transform: translate(2px, -1px) skew(5deg); filter: hue-rotate(-25deg); }
+      48% { transform: translate(-1px, -1px) skew(-3deg); opacity: 0.72; }
+      62% { transform: translate(1px, 1px) skew(3deg); opacity: 1; }
+      100% { transform: translate(0, 0) skew(0deg); filter: hue-rotate(0deg); }
+    }
+
+    @keyframes lightSweep {
+      0% { opacity: 0; transform: translateX(-80%); }
+      35% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(80%); }
+    }
+
+    @keyframes sectionNeon {
+      0%, 100% {
+        border-color: rgba(255,255,255,0.10);
+        box-shadow:
+          0 0 18px rgba(255, 0, 180, 0.10),
+          0 0 24px rgba(0, 80, 255, 0.08),
+          0 0 30px rgba(0,0,0,0.45);
+      }
+
+      22% {
+        border-color: rgba(255, 0, 180, 0.35);
+        box-shadow:
+          0 0 22px rgba(255, 0, 180, 0.22),
+          0 0 34px rgba(0, 80, 255, 0.12),
+          0 0 30px rgba(0,0,0,0.45);
+      }
+
+      23% {
+        border-color: rgba(255,255,255,0.08);
+        box-shadow: 0 0 8px rgba(255,255,255,0.05);
+      }
+
+      24%, 65% {
+        border-color: rgba(0, 140, 255, 0.28);
+        box-shadow:
+          0 0 24px rgba(0, 140, 255, 0.18),
+          0 0 34px rgba(255, 0, 180, 0.10),
+          0 0 30px rgba(0,0,0,0.45);
+      }
+
+      66% {
+        border-color: rgba(255,255,255,0.08);
+        box-shadow: none;
+      }
+
+      67% {
+        border-color: rgba(255, 0, 180, 0.38);
+        box-shadow:
+          0 0 26px rgba(255, 0, 180, 0.25),
+          0 0 36px rgba(0, 140, 255, 0.15),
+          0 0 30px rgba(0,0,0,0.45);
+      }
+    }
+
+    @keyframes borderFlow {
+      0% {
+        transform: translateX(-20%) translateY(0%);
+        opacity: 0.15;
+      }
+
+      50% {
+        transform: translateX(10%) translateY(2%);
+        opacity: 0.38;
+      }
+
+      100% {
+        transform: translateX(20%) translateY(0%);
+        opacity: 0.15;
+      }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 850px) {
+      .info-grid,
+      .simulator-content,
+      .form-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .options {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        min-height: auto;
+        padding-top: 28px;
+      }
+
+      .logo-orb {
+        width: min(360px, 88vw);
+      }
+
+      .since {
+        display: block;
+        top: 0;
+        left: 0;
+        margin-top: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio id="ambientAudio" loop>
+    <source src="audio/fluorescent-light-turn-on-and-hum-65028.mp3" type="audio/mpeg">
+  </audio>
+  <div class="noise"></div>
+
+  <header id="inicio">
+    <div class="container">
+      <div class="hero-card">
+        <div class="logo-orb">
+          <div>
+            <div class="brand">SORRY MOM <span class="since">SINCE 2018</span></div>
+            <div class="subtitle">TATTOO • PIERCING</div>
+          </div>
+        </div>
+
+        <nav>
+          <a href="#quem-somos">Quem somos</a>
+          <a href="#trabalhos">Trabalhos</a>
+          <a href="#simulador">Simulador</a>
+          <a href="#orcamento">Orçamento</a>
+          <a href="#localizacao">Localização</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <section id="quem-somos">
+    <div class="container">
+      <h2 class="section-title">Sorry Mom Studio</h2>
+      <div class="info-card">
+        <p>
+          Um espaço criado para quem busca arte, estilo e identidade. Aqui entram tatuagens autorais,
+          flashes, projetos personalizados e body piercing com atendimento cuidadoso do início ao fim.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="trabalhos">
+    <div class="container">
+      <h2 class="section-title">Trabalhos & Flashs</h2>
+      <div class="carousel">
+        <div class="slide active">
+          <div>
+            <h3>Tattoos Autorais</h3>
+            <p>Espaço reservado para fotos dos trabalhos do Douglas.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <div>
+            <h3>Flash Tattoos</h3>
+            <p>Ideias prontas, pequenas artes e inspirações rápidas.</p>
+          </div>
+        </div>
+        <div class="slide">
+          <div>
+            <h3>Body Piercing</h3>
+            <p>Fotos de perfurações, joias e resultados cicatrizados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cuidados">
+    <div class="container">
+      <h2 class="section-title">Cuidados & Informações</h2>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Tattoo</h3>
+          <p id="tattooInfo">Antes da tattoo, hidrate-se bem, alimente-se e evite bebida alcoólica.</p>
+        </div>
+        <div class="info-card">
+          <h3>Piercing</h3>
+          <p id="piercingInfo">Higienize o piercing conforme orientação profissional e evite mexer com as mãos sujas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="simulador">
+    <div class="container">
+      <h2 class="section-title">Simulador Visual</h2>
+      <div class="simulator-card">
+        <div class="simulator-content">
+          <div class="body-placeholder">
+            Boneco 3D<br />Fase 2 do projeto
+          </div>
+          <div>
+            <h3>Prévia da tattoo</h3>
+            <div class="options">
+              <label>Modelo
+                <select>
+                  <option>Masculino</option>
+                  <option>Feminino</option>
+                </select>
+              </label>
+              <label>Tom de pele
+                <select>
+                  <option>Claro</option>
+                  <option>Médio</option>
+                  <option>Escuro</option>
+                </select>
+              </label>
+              <label>Local do corpo
+                <select>
+                  <option>Braço esquerdo</option>
+                  <option>Braço direito</option>
+                  <option>Pescoço</option>
+                  <option>Costas</option>
+                  <option>Perna esquerda</option>
+                  <option>Perna direita</option>
+                </select>
+              </label>
+              <label>Estilo
+                <select>
+                  <option>Preto e branco</option>
+                  <option>Colorida</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="orcamento">
+    <div class="container">
+      <h2 class="section-title">Orçamento pelo WhatsApp</h2>
+      <div class="form-card">
+        <h3>Solicitar orçamento de tattoo</h3>
+        <form id="budgetForm">
+          <div class="form-grid">
+            <label>Nome do cliente
+              <input id="nome" type="text" placeholder="Seu nome" required />
+            </label>
+            <label>Idade
+              <input id="idade" type="number" placeholder="Sua idade" required />
+            </label>
+            <label>Telefone
+              <input id="telefone" type="tel" placeholder="(51) 99999-9999" />
+            </label>
+            <label>É menor de idade?
+              <select id="menor">
+                <option>Não</option>
+                <option>Sim</option>
+              </select>
+            </label>
+            <label>Local da tattoo
+              <input id="localTattoo" type="text" placeholder="Ex: braço esquerdo" />
+            </label>
+            <label>Tamanho aproximado
+              <input id="tamanho" type="text" placeholder="Ex: 10 cm" />
+            </label>
+            <label>Tipo
+              <select id="tipoTattoo">
+                <option>Preto e branco</option>
+                <option>Colorida</option>
+                <option>Sombreada</option>
+                <option>Não sei ainda</option>
+              </select>
+            </label>
+            <label>Imagem de referência
+              <input id="referencia" type="file" accept="image/*" />
+            </label>
+            <label class="full">Descrição da ideia
+              <textarea id="descricao" placeholder="Descreva a tattoo que você quer fazer"></textarea>
+            </label>
+            <label class="full">Alterações desejadas na referência
+              <textarea id="alteracoes" placeholder="Ex: mudar cor, tamanho, detalhes, posição..."></textarea>
+            </label>
+          </div>
+          <div class="submit-row">
+            <button class="btn btn-primary" type="submit">Enviar orçamento pelo WhatsApp</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="localizacao">
+    <div class="container">
+      <h2 class="section-title">Contato & Localização</h2>
+      <div class="contact-grid">
+        <div class="map-card">
+          <h3>Google Maps</h3>
+          <div class="fake-map">Aqui entra o mapa do endereço do estúdio</div>
+        </div>
+        <div class="map-card">
+          <h3>Atendimento</h3>
+          <p>WhatsApp: adicionar número</p><br />
+          <p>Instagram: adicionar perfil</p><br />
+          <p>Horários: adicionar horários de atendimento</p><br />
+          <p>Endereço: adicionar endereço completo</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <button class="audio-toggle" id="audioToggle">🔇 Som OFF</button>
+
+  <a class="floating-whatsapp" id="floatingWhats" href="#orcamento" aria-label="WhatsApp">☏</a>
+
+  <footer>
+    Sorry Mom Tattoo & Piercing • Site beta
+  </footer>
+
+  <script>
+    const ambientAudio = document.getElementById('ambientAudio');
+    const audioToggle = document.getElementById('audioToggle');
+
+    let audioStarted = false;
+    let audioEnabled = false;
+    let audioContext;
+    let analyser;
+    let audioData;
+    let sourceNode;
+
+    function setupAudioReactivity() {
+      if (audioContext) return;
+
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioContext.createAnalyser();
+      analyser.fftSize = 64;
+      audioData = new Uint8Array(analyser.frequencyBinCount);
+
+      sourceNode = audioContext.createMediaElementSource(ambientAudio);
+      sourceNode.connect(analyser);
+      analyser.connect(audioContext.destination);
+
+      document.body.classList.add('audio-reacting');
+      syncNeonWithAudio();
+    }
+
+    function syncNeonWithAudio() {
+      if (!analyser) return;
+
+      analyser.getByteFrequencyData(audioData);
+
+      const bassAndHum = audioData.slice(0, 10);
+      const average = bassAndHum.reduce((total, value) => total + value, 0) / bassAndHum.length;
+      const glow = Math.min(1, average / 120);
+
+      document.body.style.setProperty('--audio-glow', glow.toFixed(2));
+      requestAnimationFrame(syncNeonWithAudio);
+    }
+
+    function startAmbientAudio() {
+      if (!audioStarted) {
+        ambientAudio.volume = 0.08;
+        setupAudioReactivity();
+        if (audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+        ambientAudio.play().then(() => {
+          audioStarted = true;
+          audioEnabled = true;
+          audioToggle.textContent = '🔊 Som ON';
+        }).catch(() => {});
+      }
+    }
+
+    document.addEventListener('click', startAmbientAudio, { once: true });
+
+    audioToggle.addEventListener('click', () => {
+      if (!audioStarted) {
+        startAmbientAudio();
+        return;
+      }
+
+      if (audioEnabled) {
+        ambientAudio.pause();
+        audioEnabled = false;
+        audioToggle.textContent = '🔇 Som OFF';
+      } else {
+        if (audioContext && audioContext.state === 'suspended') {
+          audioContext.resume();
+        }
+        ambientAudio.play();
+        audioEnabled = true;
+        audioToggle.textContent = '🔊 Som ON';
+      }
+    });
+
+    const neonButtons = document.querySelectorAll('nav a, .btn');
+
+    neonButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        button.classList.remove('glitch-click');
+        void button.offsetWidth;
+        button.classList.add('glitch-click');
+
+        setTimeout(() => {
+          button.classList.remove('glitch-click');
+        }, 420);
+      });
+    });
+
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    setInterval(() => {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }, 4200);
+
+    const tattooTexts = [
+      'Antes da tattoo, hidrate-se bem, alimente-se e evite bebida alcoólica.',
+      'Após tatuar, siga os cuidados indicados pelo profissional para uma boa cicatrização.',
+      'Evite sol direto, piscina e mar durante o período de cicatrização.',
+      'A escolha do tamanho e do local influencia muito no resultado final da arte.'
+    ];
+
+    const piercingTexts = [
+      'Higienize o piercing conforme orientação profissional e evite mexer com as mãos sujas.',
+      'Cada região do corpo tem um tempo diferente de cicatrização.',
+      'Não troque a joia antes do período recomendado pelo profissional.',
+      'Evite atrito, pancadas e produtos inadequados na região perfurada.'
+    ];
+
+    const tattooInfo = document.getElementById('tattooInfo');
+    const piercingInfo = document.getElementById('piercingInfo');
+    let infoIndex = 0;
+
+    setInterval(() => {
+      infoIndex = (infoIndex + 1) % tattooTexts.length;
+      tattooInfo.style.opacity = 0;
+      piercingInfo.style.opacity = 0;
+
+      setTimeout(() => {
+        tattooInfo.textContent = tattooTexts[infoIndex];
+        piercingInfo.textContent = piercingTexts[infoIndex];
+        tattooInfo.style.opacity = 1;
+        piercingInfo.style.opacity = 1;
+      }, 350);
+    }, 7000);
+
+    const budgetForm = document.getElementById('budgetForm');
+
+    budgetForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const numeroDouglas = '5551999999999'; // Trocar pelo WhatsApp real do Douglas
+      const referencia = document.getElementById('referencia').files.length > 0 ? 'Sim, vou enviar a imagem aqui no WhatsApp.' : 'Não.';
+
+      const mensagem = `Olá, vim pelo site Sorry Mom e gostaria de fazer um orçamento de tatuagem.%0A%0A` +
+        `Nome: ${document.getElementById('nome').value}%0A` +
+        `Idade: ${document.getElementById('idade').value}%0A` +
+        `Menor de idade: ${document.getElementById('menor').value}%0A` +
+        `Telefone: ${document.getElementById('telefone').value}%0A%0A` +
+        `Local da tattoo: ${document.getElementById('localTattoo').value}%0A` +
+        `Tamanho aproximado: ${document.getElementById('tamanho').value}%0A` +
+        `Tipo: ${document.getElementById('tipoTattoo').value}%0A%0A` +
+        `Descrição da ideia: ${document.getElementById('descricao').value}%0A%0A` +
+        `Alterações desejadas: ${document.getElementById('alteracoes').value}%0A%0A` +
+        `Tenho imagem de referência: ${referencia}`;
+
+      window.open(`https://wa.me/${numeroDouglas}?text=${mensagem}`, '_blank');
+    });
+  </script>
+</body>
+</html>
