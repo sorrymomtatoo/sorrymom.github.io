@@ -29,6 +29,69 @@
       overflow-x: hidden;
     }
 
+    #introScreen {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(255,0,180,0.10), transparent 35%),
+        radial-gradient(circle at center, rgba(0,120,255,0.10), transparent 40%),
+        #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 1.2s ease, visibility 1.2s ease;
+    }
+
+    #introScreen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-logo {
+      text-align: center;
+      animation: introFade 2s ease forwards;
+    }
+
+    .intro-glitch {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(3rem, 10vw, 7rem);
+      color: #fff;
+      letter-spacing: 3px;
+      position: relative;
+      text-shadow:
+        0 0 12px rgba(255,255,255,0.7),
+        0 0 22px rgba(255,0,180,0.4),
+        0 0 30px rgba(0,80,255,0.3);
+      animation: introFlicker 2s infinite;
+    }
+
+    .intro-glitch::before,
+    .intro-glitch::after {
+      content: 'SORRY MOM';
+      position: absolute;
+      inset: 0;
+      opacity: 0.6;
+    }
+
+    .intro-glitch::before {
+      color: rgba(255,0,180,0.6);
+      transform: translate(-2px, 0);
+    }
+
+    .intro-glitch::after {
+      color: rgba(0,140,255,0.6);
+      transform: translate(2px, 0);
+    }
+
+    .intro-logo span {
+      display: block;
+      margin-top: 14px;
+      letter-spacing: 6px;
+      color: rgba(255,255,255,0.75);
+    }
+
     body::before {
       content: "";
       position: fixed;
@@ -580,6 +643,47 @@
       }
     }
 
+    @keyframes introFade {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes introFlicker {
+      0%, 100% {
+        opacity: 1;
+      }
+      8% {
+        opacity: 0.4;
+      }
+      10% {
+        opacity: 1;
+      }
+      22% {
+        opacity: 0.75;
+      }
+      23% {
+        opacity: 0.2;
+      }
+      24% {
+        opacity: 1;
+      }
+      60% {
+        opacity: 0.85;
+      }
+      61% {
+        opacity: 0.3;
+      }
+      62% {
+        opacity: 1;
+      }
+    }
+
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -616,6 +720,12 @@
   </style>
 </head>
 <body>
+  <div id="introScreen">
+    <div class="intro-logo">
+      <div class="intro-glitch">SORRY MOM</div>
+      <span>TATTOO • PIERCING</span>
+    </div>
+  </div>
   <audio id="ambientAudio" loop>
     <source src="audio/freesound_community-fluorescent-light-turn-on-and-hum-65028.mp3" type="audio/mpeg">
   </audio>
@@ -825,6 +935,14 @@
   </footer>
 
   <script>
+    const introScreen = document.getElementById('introScreen');
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        introScreen.classList.add('hide');
+      }, 3200);
+    });
+
     const ambientAudio = document.getElementById('ambientAudio');
     const audioToggle = document.getElementById('audioToggle');
 
